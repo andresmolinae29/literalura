@@ -12,7 +12,7 @@ public class Author {
     private Long id;
     @Column(unique = true)
     private String fullname;
-    private String fisrtName;
+    private String firstName;
     private String lastName;
     private Integer birthYear;
     private Integer deathYear;
@@ -24,7 +24,7 @@ public class Author {
     public Author(AuthorData author) {
 
         this.fullname = author.name();
-        this.fisrtName = author.name().split(", ")[1];
+        this.firstName = author.name().split(", ")[1];
         this.lastName = author.name().split(", ")[0];
         this.birthYear = author.birthYear();
         this.deathYear = author.deathYear();
@@ -33,7 +33,7 @@ public class Author {
     @Override
     public String toString() {
         return "----------------------\n" +
-                "First name: " + this.getFisrtName() + "\n" +
+                "First name: " + this.getFirstName() + "\n" +
                 "Last name: " + this.getLastName() + "\n" +
                 "BirthYear: " + this.getBirthYear() + '\n' +
                 "DeathYear: " + this.getDeathYear() + "\n" +
@@ -73,12 +73,12 @@ public class Author {
         this.books = books;
     }
 
-    public String getFisrtName() {
-        return fisrtName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

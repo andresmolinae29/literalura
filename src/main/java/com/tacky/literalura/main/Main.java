@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -87,20 +88,31 @@ public class Main {
         }
     }
 
+    private void saveBook(Book book) {
+        try {
+            bookRepository.save(book);
+        }
+        catch (DataIntegrityViolationException e) {
+            System.out.println("Ya existe en la base de datos");
+        }
+    }
+
     private void searchBookByTitlle() {
         BookData data = getBookData();
-        System.out.println(data);
-        if (data != null) {
-            Book book = new Book(data);
 
-            try {
-                bookRepository.save(book);
-            }
-            catch (DataIntegrityViolationException e) {
-                System.out.println("Ya existe en la base de datos");
-            }
+        if (data != null) {
+            Optional<Author> author = authorRepository.findByFullname(data.authors().get(0).name());
+
+            if (author.isPresent()) {
+                Book book = new Book(data, author.get());
+                saveBook(book);
+
+            } else {
+                Book book = new Book(data);
+                saveBook(book);
             }
         }
+    }
 
     private void listBooks() {
         books = bookRepository.findAll();

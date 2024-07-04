@@ -2,9 +2,6 @@ package com.tacky.literalura.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @Entity
 @Table(name="books")
 public class Book {
@@ -15,7 +12,9 @@ public class Book {
     private String title;
     private Language languages;
     private Integer downloadCount;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            cascade = CascadeType.DETACH
+    )
     private Author author;
 
     public Book() {}
@@ -27,13 +26,20 @@ public class Book {
         this.author = new Author(bookData.authors().get(0));
     }
 
+    public Book(BookData book, Author author) {
+        this.title = book.title();
+        this.languages = Language.fromString(book.languages().get(0));
+        this.downloadCount = book.downloadCount();
+        this.author = author;
+    }
+
     @Override
     public String toString() {
         return "----------------------\n" +
                 "Book: " + this.getTitle() + "\n" +
                 "Language: " + this.getLanguages() + "\n" +
                 "Downloads: " + this.getDownloadCount() + "\n" +
-                "Author: " + this.author.getFisrtName() + " " + this.author.getLastName() + "\n" +
+                "Author: " + this.author.getFirstName() + " " + this.author.getLastName() + "\n" +
                 "----------------------\n";
     }
 
