@@ -109,6 +109,7 @@ public class Main {
 
             } else {
                 Book book = new Book(data);
+                authorRepository.save(book.getAuthors());
                 saveBook(book);
             }
         }
@@ -117,7 +118,7 @@ public class Main {
     private void listBooks() {
         books = bookRepository.findAll();
         books.stream()
-                .limit(5)
+                .limit(10)
                 .forEach(System.out::println);
     }
 
